@@ -1,4 +1,4 @@
-import java.sql.Date;
+import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -105,7 +105,7 @@ public class Place {
 	}
 
 	public String getInfo() {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		String info = "";
 		info += "Nume loc: " + this.getName() + "\n";
 		info += "Oras: " + this.getCity().toString() + "\n";
