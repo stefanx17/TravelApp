@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.PriorityQueue;
 
 public class City {
 	private String name;
@@ -57,6 +59,38 @@ public class City {
 		if (place.getCity() != this) {
 			place.setCity(this);
 		}
+	}
+	
+	/**
+	 * 
+	 * @param A - check-in date
+	 * @param B - check-out date
+	 * @return a List of the top 5 cheapest destinations
+	 */
+	public List<Place> getTop5(Date checkIn, Date checkOut) {
+		List<Place> places = this.getPlaces();
+		List<Place> res = new ArrayList<Place>();
+		PriorityQueue<Place> pq = new PriorityQueue<Place>(new PlaceComparator());
+		
+		/**
+		 * only get the places that can be booked for the whole period
+		 */
+		for (Place p : places) {
+			if (p.getStartDate().before(checkIn) && p.getEndDate().after(checkOut)) {
+				pq.add(p);
+			}
+		}
+		
+		/**
+		 * get only the first 5 cheapest locations to return 
+		 */
+		int count = 5;
+		while(!pq.isEmpty() && count > 0) {
+			res.add(pq.poll());
+			count--;
+		}
+		
+		return res;
 	}
 
 	@Override

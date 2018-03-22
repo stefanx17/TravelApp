@@ -6,8 +6,15 @@ public class Main {
 	public static void main(String args[]) {
 		readCities();
 		readPlaces();
+		Date checkIn, checkOut;
+		Calendar cal = Calendar.getInstance();
+		cal.set(2018, 5, 10);
+		checkIn = cal.getTime();
 		
-		for(Place p : Agency.getInstance().getCities().get("City5").getPlaces()) {
+		cal.set(2018, 6, 10);
+		checkOut = cal.getTime();
+		
+		for(Place p : Agency.getInstance().getCities().get("City6").getTop5(checkIn, checkOut)) {
 			System.out.println(p.getInfo());
 		}
 	}

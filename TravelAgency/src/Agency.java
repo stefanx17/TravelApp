@@ -1,3 +1,4 @@
+import java.util.Comparator;
 import java.util.HashMap;
 
 public class Agency {
@@ -47,5 +48,41 @@ public class Agency {
 		return places;
 	}
 	
+	/**
+	 * @return the cheapest destination from this agency
+	 */
+	public Place getCheapest() {
+		Place cheapest = null;
+		
+		/**
+		 * iterate through all the places to find the cheapest one
+		 */
+		for(Place place : places.values()) {
+			if (cheapest == null) {
+				cheapest = place;
+			} else {
+				if (cheapest.getPrice() > place.getPrice()) {
+					cheapest = place;
+				}
+			}
+		}
+		return cheapest;
+	}
+}
+
+class PlaceComparator implements Comparator<Place>{
+
+	@Override
+	public int compare(Place placeA, Place placeB) {
+		if (placeA.getPrice() > placeB.getPrice()) {
+			return 1;
+		} else {
+			if (placeA.getPrice() == placeB.getPrice()) {
+				return placeA.getName().compareTo(placeB.getName());
+			}
+		}
+		
+		return -1;
+	}
 	
 }
