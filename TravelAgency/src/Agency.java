@@ -1,5 +1,6 @@
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 public class Agency {
 	private static Agency instance = null;
@@ -58,6 +59,15 @@ public class Agency {
 		 * iterate through all the places to find the cheapest one
 		 */
 		for(Place place : places.values()) {
+			long diff = place.getEndDate().getTime() - place.getStartDate().getTime();
+		    long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+			
+		    /**
+		     * only check the places that can be booked for at least 10 days
+		     */
+		    if (days < 10) {
+				continue;
+			}
 			if (cheapest == null) {
 				cheapest = place;
 			} else {

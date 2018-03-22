@@ -1,22 +1,13 @@
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
 	
 	public static void main(String args[]) {
 		readCities();
 		readPlaces();
-		Date checkIn, checkOut;
-		Calendar cal = Calendar.getInstance();
-		cal.set(2018, 5, 10);
-		checkIn = cal.getTime();
-		
-		cal.set(2018, 6, 10);
-		checkOut = cal.getTime();
-		
-		for(Place p : Agency.getInstance().getCities().get("City6").getTop5(checkIn, checkOut)) {
-			System.out.println(p.getInfo());
-		}
+		getCommands();
 	}
 	
 	/**
@@ -207,5 +198,85 @@ public class Main {
 		 * return a the current time in a Date object
 		 */
 		return cal.getTime();
+	}
+	
+	public static void getCommands() {
+		Agency ag = Agency.getInstance();
+		Scanner sc = new Scanner(System.in);
+		String line, command, name, type;
+		Date checkIn, checkOut;
+		boolean over = false;
+		long diff, days;
+		List<Place> places;
+		
+		System.out.println("Introduceti o comanda: ");
+		System.out.println("Comenzi: ");
+		System.out.println("1) info placeName");
+		System.out.println("2) top[City/County/Country] cityName/countyName/countryName checkIn(dd/mm/yyyy) checkOut(dd/mm/yyyy)");
+		System.out.println("3) cheapest");
+		System.out.println("4) exit\n");
+		while(!over) {
+			
+			line = sc.nextLine();
+			StringTokenizer st = new StringTokenizer(line, " ");
+			command = st.nextToken();
+			
+			switch(command) {
+			case "info":
+				name = st.nextToken();
+				System.out.println(ag.getPlaces().get(name).getInfo());
+				break;	
+			case "topCity":
+				name = st.nextToken();
+				checkIn = parseDate(st.nextToken());
+				checkOut = parseDate(st.nextToken());
+				diff = checkOut.getTime() - checkIn.getTime();
+			    days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+				
+				places = ag.getCities().get(name).getTop5(checkIn, checkOut);
+				System.out.println("Top 5 locatii in " + name);
+				for (Place p : places) {
+					System.out.println(p + " Pret pe sejur: " + (days * p.getPrice()) + " $");
+				}
+				break;
+			case "topCounty":
+				name = st.nextToken();
+				checkIn = parseDate(st.nextToken());
+				checkOut = parseDate(st.nextToken());
+				diff = checkOut.getTime() - checkIn.getTime();
+			    days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+				
+				places = ag.getCounties().get(name).getTop5(checkIn, checkOut);
+				System.out.println("Top 5 locatii in " + name);
+				for (Place p : places) {
+					System.out.println(p + " Pret pe sejur: " + (days * p.getPrice()) + " $");
+				}
+				break;
+			case "topCountry":
+				name = st.nextToken();
+				checkIn = parseDate(st.nextToken());
+				checkOut = parseDate(st.nextToken());
+				diff = checkOut.getTime() - checkIn.getTime();
+			    days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+				
+				places = ag.getCountries().get(name).getTop5(checkIn, checkOut);
+				System.out.println("Top 5 locatii in " + name);
+				for (Place p : places) {
+					System.out.println(p + " Pret pe sejur: " + (days * p.getPrice()) + " $");
+				}
+				break;
+			case "cheapest":
+				Place p = ag.getCheapest();
+				System.out.println("Cea mai ieftina locatie ");
+				System.out.println(p + " Pret pe un sejur de 10 zile: " + (p.getPrice() * 10) + " $");
+				break;
+			case "exit":
+				over = true;
+				break;
+			}
+		}
+			
+		
+		sc.close();
 	}
 }
