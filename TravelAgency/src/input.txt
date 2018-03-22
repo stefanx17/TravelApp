@@ -1,6 +1,6 @@
 Place0;City0;30.1;sport,inot,plaja;10/4/2018;10/4/2019
 Place1;City2;2.1;sport,inot,plaja;10/4/2018;10/4/2019
-Place2;City5;10.1;sport,inot,plaja;10/4/2018;10/4/2019
+Place2;City5;10.1;sport,inot,plaja;10/8/2018;10/4/2019
 Place3;City6;14.5;sport,inot,plaja;10/4/2018;10/4/2019
 Place4;City13;34.2;sport,inot,plaja;10/4/2018;10/4/2019
 Place5;City5;15.1;sport,inot,plaja;10/4/2018;10/4/2019

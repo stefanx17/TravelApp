@@ -7,7 +7,7 @@ public class Main {
 	public static void main(String args[]) {
 		readCities();
 		readPlaces();
-		getCommands();
+		getCommands(); // use for testing
 	}
 	
 	/**
@@ -200,6 +200,9 @@ public class Main {
 		return cal.getTime();
 	}
 	
+	/**
+	 * reads and executes commands from Stdin
+	 */
 	public static void getCommands() {
 		Agency ag = Agency.getInstance();
 		Scanner sc = new Scanner(System.in);
@@ -209,22 +212,33 @@ public class Main {
 		long diff, days;
 		List<Place> places;
 		
+		/**
+		 * print menu and usage info
+		 */
 		System.out.println("Introduceti o comanda: ");
 		System.out.println("Comenzi: ");
 		System.out.println("1) info placeName");
 		System.out.println("2) top[City/County/Country] cityName/countyName/countryName checkIn(dd/mm/yyyy) checkOut(dd/mm/yyyy)");
 		System.out.println("3) cheapest");
 		System.out.println("4) exit\n");
+		
 		while(!over) {
 			
 			line = sc.nextLine();
 			StringTokenizer st = new StringTokenizer(line, " ");
 			command = st.nextToken();
 			
+			/**
+			 * do specific actions based on the command
+			 */
 			switch(command) {
 			case "info":
 				name = st.nextToken();
-				System.out.println(ag.getPlaces().get(name).getInfo());
+				if (ag.getPlaces().containsKey(name)) {
+					System.out.println(ag.getPlaces().get(name).getInfo());
+				} else {
+					System.out.println("Locatia introdusa nu exista");
+				}
 				break;	
 			case "topCity":
 				name = st.nextToken();
